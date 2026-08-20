@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国象棋 - Chinese Chess</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>中国象棋</h1>
+            <div class="game-stats">
+                <div class="stat">
+                    <span class="label">回合:</span>
+                    <span id="move-count">0</span>
+                </div>
+                <div class="stat">
+                    <span class="label">当前:</span>
+                    <span id="current-player">红方</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="game-area">
+            <aside class="panel left-panel">
+                <div class="mode-selector">
+                    <h3>游戏模式</h3>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="mode" value="pve" checked>
+                            <span>人机对弈</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="mode" value="eve">
+                            <span>机机对弈</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="player-config">
+                    <h3>玩家配置</h3>
+                    <div class="config-group">
+                        <label for="red-player">红方:</label>
+                        <select id="red-player">
+                            <option value="human">人类玩家</option>
+                            <option value="random">随机策略</option>
+                            <option value="greedy">贪心策略</option>
+                            <option value="minimax" selected>Minimax</option>
+                            <option value="mcts">蒙特卡洛(MCTS)</option>
+                            <option value="hybrid">混合策略</option>
+                        </select>
+                    </div>
+                    <div class="config-group">
+                        <label for="black-player">黑方:</label>
+                        <select id="black-player">
+                            <option value="human">人类玩家</option>
+                            <option value="random">随机策略</option>
+                            <option value="greedy">贪心策略</option>
+                            <option value="minimax">Minimax</option>
+                            <option value="mcts" selected>蒙特卡洛(MCTS)</option>
+                            <option value="hybrid">混合策略</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="ai-config">
+                    <h3>AI 参数</h3>
+                    <div class="config-group">
+                        <label for="search-depth">搜索深度:</label>
+                        <input type="range" id="search-depth" min="1" max="6" value="4">
+                        <span id="depth-value">4</span>
+                    </div>
+                    <div class="config-group">
+                        <label for="mcts-simulations">MCTS 模拟次数:</label>
+                        <input type="range" id="mcts-simulations" min="100" max="5000" step="100" value="1000">
+                        <span id="simulations-value">1000</span>
+                    </div>
+                    <div class="config-group">
+                        <label for="think-time">思考时间(秒):</label>
+                        <input type="range" id="think-time" min="1" max="30" value="5">
+                        <span id="time-value">5</span>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button id="new-game" class="btn btn-primary">新游戏</button>
+                    <button id="undo-move" class="btn">悔棋</button>
+                    <button id="auto-play" class="btn">自动对弈</button>
+                    <button id="stop-play" class="btn btn-danger" disabled>停止</button>
+                </div>
+            </aside>
+
+            <main class="board-container">
+                <div class="board-wrapper">
+                    <canvas id="chess-board" width="640" height="720"></canvas>
+                </div>
+                <div class="game-status" id="game-status"></div>
+            </main>
+
+            <aside class="panel right-panel">
+                <div class="move-history">
+                    <h3>走法历史</h3>
+                    <div id="move-list" class="move-list"></div>
+                </div>
+
+                <div class="evaluation">
+                    <h3>局面评估</h3>
+                    <div class="eval-bar">
+                        <div class="eval-fill" id="eval-fill"></div>
+                    </div>
+                    <div class="eval-text" id="eval-text">0.0</div>
+                </div>
+
+                <div class="cycle-detection">
+                    <h3>循环检测</h3>
+                    <div class="cycle-info">
+                        <div>重复局面: <span id="repeat-count">0</span>/3</div>
+                        <div>无吃子步数: <span id="no-capture-count">0</span>/60</div>
+                        <div>长将检测: <span id="check-status">无</span></div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/zobrist.js"></script>
+    <script src="js/pieces.js"></script>
+    <script src="js/board.js"></script>
+    <script src="js/ai/random.js"></script>
+    <script src="js/ai/greedy.js"></script>
+    <script src="js/ai/minimax.js"></script>
+    <script src="js/ai/mcts.js"></script>
+    <script src="js/ai/hybrid.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
