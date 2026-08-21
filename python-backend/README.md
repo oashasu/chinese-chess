@@ -10,37 +10,35 @@ python-backend/
 │   ├── rules.py           # 象棋规则引擎
 │   └── xiangqi_env.py     # Gym 环境封装
 ├── model/                  # 模型
-│   └── resnet.py          # ResNet (Policy + Value)
+│   ├── resnet.py          # ResNet (Policy + Value)
+│   └── alphazero_mcts.py  # AlphaZero MCTS 搜索器
 ├── scripts/                # 脚本
 │   ├── generate_data.py   # 数据生成（随机自对弈 / Pikafish）
-│   └── train.py           # 训练脚本（监督学习 + AlphaZero）
+│   ├── train.py           # 监督学习训练
+│   ├── self_play.py       # AlphaZero 自对弈
+│   └── alphazero_train.py # AlphaZero 完整训练循环
 ├── models/                 # 模型文件（Git LFS）
 │   ├── data/              # 训练数据
-│   └── checkpoints/       # 模型检查点
+│   ├── checkpoints/       # 监督学习检查点
+│   └── alphazero/         # AlphaZero 迭代数据
 ├── requirements.txt
 └── README.md
 ```
 
 ## 快速开始
 
-### 1. 安装依赖
+### Phase 1: 监督学习（快速初始模型）
 
 ```bash
 cd python-backend
+
+# 1. 安装依赖
 pip install -r requirements.txt
-```
 
-### 2. 生成训练数据（Phase 1）
-
-```bash
-# 随机自对弈生成 10000 局
+# 2. 生成随机自对弈数据
 python scripts/generate_data.py --num-games 10000 --output-dir models/data
-```
 
-### 3. 训练模型（Phase 1）
-
-```bash
-# 监督学习训练
+# 3. 训练模型
 python scripts/train.py --phase supervised \
     --data-path models/data/random_data.npz \
     --output-dir models/checkpoints \
@@ -49,13 +47,26 @@ python scripts/train.py --phase supervised \
     --export-onnx
 ```
 
-### 4. 查看训练日志
+### Phase 2: AlphaZero 自训练（强化学习）
 
 ```bash
-tensorboard --logdir models/checkpoints
+# 运行 AlphaZero 训练循环
+python scripts/alphazero_train.py \
+    --num-iterations 10 \
+    --num-games 100 \
+    --num-simulations 400 \
+    --epochs 10 \
+    --output-dir models/alphazero \
+    --model-type small
 ```
 
-### 5. 导出 ONNX 模型
+### 查看训练日志
+
+```bash
+tensorboard --logdir models/alphazero
+```
+
+### 导出 ONNX 模型
 
 ```bash
 python scripts/train.py --phase supervised \
@@ -83,22 +94,44 @@ Phase 1: 监督学习
   随机自对弈/Pikafish 数据 → 训练 ResNet → 导出 ONNX
 
 Phase 2: AlphaZero 自训练
-  自对弈生成数据 → 训练 → 更新网络 → 循环
+  自对弈生成数据 → 训练 → 评估 → 更新网络 → 循环
+```
+
+### AlphaZero 循环
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    自我进化循环                            │
+│                                                         │
+│  ┌──────────    自对弈数据    ┌──────────────┐          │
+│  │  ResNet  │ ──────────────→ │  训练神经网络  │          │
+│  │ Policy+  │ ←────────────── │  (Policy Loss │          │
+│  │ Value    │    更新权重      │   Value Loss) │          │
+│  └─────────┘                 └──────────────┘          │
+│       │                                                  │
+│       │ 引导搜索                                          │
+│       ▼                                                  │
+│  ┌──────────┐    生成走法     ┌──────────────┐           │
+│  │   MCTS   │ ─────────────→ │  记录 (s, π, z)│          │
+│  │(神经网络  │ ←────────────── │  状态，策略，胜负│           │
+│  │  评估叶子) │    叶子评估     └──────────────┘           │
+│  └──────────┘                                            │
+└─────────────────────────────────────────────────────────┘
 ```
 
 ## 性能参考
 
 | 模型 | 参数量 | 推理速度 (CPU) | 推理速度 (GPU) |
 |------|--------|---------------|---------------|
-| Small (4 blocks) | ~100K | ~5ms | ~1ms |
+| Small (4 blocks) | ~1.8M | ~5ms | ~1ms |
 | Large (19 blocks) | ~10M | ~50ms | ~5ms |
 
 ## 下一步
 
 - [ ] 集成 Pikafish 生成高质量训练数据
-- [ ] 实现 AlphaZero MCTS 自对弈循环
 - [ ] 前端 ONNX Runtime Web 集成
 - [ ] 模型量化 (INT8) 加速浏览器推理
+- [ ] 分布式自对弈（多 GPU/多机）
 
 ## 参考文献
 
