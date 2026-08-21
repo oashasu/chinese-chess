@@ -64,13 +64,14 @@ class MinimaxAI {
 
     /**
      * Minimax 搜索 + Alpha-Beta 剪枝
+     * 评估始终以红方为正方向：红方最大化，黑方最小化
      */
     _minimax(board, depth, alpha, beta, isMaximizing, originalSide) {
         this.nodesSearched++;
 
-        // 终止条件
+        // 终止条件：始终以红方视角评估
         if (depth === 0) {
-            return this.evaluator.evaluate(board, originalSide);
+            return this.evaluator.evaluate(board, 'red');
         }
 
         const currentSide = isMaximizing ? originalSide : (originalSide === 'red' ? 'black' : 'red');

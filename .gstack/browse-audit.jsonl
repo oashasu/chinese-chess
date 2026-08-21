@@ -61,3 +61,5 @@
 {"ts":"2026-08-21T00:27:51.401Z","cmd":"snapshot","args":"-i","origin":"http://localhost:8080/?v=2","durationMs":19,"status":"ok","hasCookies":false,"mode":"launched"}
 {"ts":"2026-08-21T00:28:05.714Z","cmd":"js","args":"\n// 点击红方炮位置 (row=7, col=1)\n// 棋盘偏移：offsetX=40, offsetY=40, cellSize=70\n// 像素坐标：x = 40 + 1*70 = 110, y = 40 + 7*70 = 530\nconst canvas = document.getElementById('chess-board');\nconst rect = canvas.getBo…","origin":"http://localhost:8080/?v=2","durationMs":4,"status":"ok","hasCookies":false,"mode":"launched"}
 {"ts":"2026-08-21T00:28:16.713Z","cmd":"screenshot","args":"/tmp/chess-click.png","origin":"http://localhost:8080/?v=2","durationMs":144,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T00:29:09.785Z","cmd":"click","args":"@e2","origin":"http://localhost:8080/?v=2","durationMs":70,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T00:29:20.208Z","cmd":"screenshot","args":"/tmp/chess-eve.png","origin":"http://localhost:8080/?v=2","durationMs":124,"status":"ok","hasCookies":false,"mode":"launched"}

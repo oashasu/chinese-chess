@@ -183,10 +183,11 @@ class HybridAI {
 
     /**
      * Minimax 带记忆（简化版）
+     * 评估始终以红方为正方向
      */
     _minimaxWithMemo(board, depth, alpha, beta, isMaximizing, originalSide) {
         if (depth === 0) {
-            return this.evaluator.evaluate(board, originalSide);
+            return this.evaluator.evaluate(board, 'red');
         }
 
         const currentSide = isMaximizing ? originalSide : (originalSide === 'red' ? 'black' : 'red');

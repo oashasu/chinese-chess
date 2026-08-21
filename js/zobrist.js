@@ -43,9 +43,9 @@ class ZobristHash {
     }
 
     /**
-     * 计算初始局面的哈希值
+     * 计算局面的哈希值
      */
-    computeHash(board) {
+    computeHash(board, currentSide) {
         let hash = 0n;
 
         for (let row = 0; row <= 9; row++) {
@@ -58,7 +58,7 @@ class ZobristHash {
         }
 
         // 如果是黑方走子，异或 sideHash
-        if (board.currentSide === 'black') {
+        if (currentSide === 'black') {
             hash ^= this.sideHash;
         }
 

@@ -38,7 +38,7 @@ class ChessGame {
         this.history = new PositionHistory();
 
         // 计算初始局面的哈希
-        this.currentHash = this.zobrist.computeHash(this.board.pieces);
+        this.currentHash = this.zobrist.computeHash(this.board.pieces, this.board.currentSide);
         this.history.recordMove(this.currentHash, null, false);
     }
 
@@ -52,7 +52,7 @@ class ChessGame {
         this.gameOver = false;
         this.winner = null;
 
-        this.currentHash = this.zobrist.computeHash(this.board.pieces);
+        this.currentHash = this.zobrist.computeHash(this.board.pieces, this.board.currentSide);
         this.history.recordMove(this.currentHash, null, false);
 
         return true;
@@ -197,7 +197,7 @@ class ChessGame {
         // 重新计算哈希
         if (this.moveHistory.length > 0) {
             // 重新计算哈希比较复杂，这里简化处理
-            this.currentHash = this.zobrist.computeHash(this.board.pieces);
+            this.currentHash = this.zobrist.computeHash(this.board.pieces, this.board.currentSide);
         }
 
         this.gameOver = false;
