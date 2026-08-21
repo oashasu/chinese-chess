@@ -310,10 +310,37 @@ class ChessBoard {
     }
 
     /**
+     * 查找点击位置附近的棋子（容差范围内）
+     */
+    _findNearestPiece(x, y) {
+        const radius = this.cellSize / 2;  // 35px 容差
+        let nearest = null;
+        let minDist = radius;
+
+        for (let row = 0; row <= 9; row++) {
+            for (let col = 0; col <= 8; col++) {
+                const piece = this.pieces[row][col];
+                if (!piece) continue;
+                const pos = boardToPixel(row, col, this.cellSize, this.offsetX, this.offsetY);
+                const dist = Math.sqrt((x - pos.x) ** 2 + (y - pos.y) ** 2);
+                if (dist < minDist) {
+                    minDist = dist;
+                    nearest = { row, col, piece };
+                }
+            }
+        }
+        return nearest;
+    }
+
+    /**
      * 点击处理
      */
     handleClick(x, y) {
-        const { row, col } = pixelToBoard(x, y, this.cellSize, this.offsetX, this.offsetY);
+        // 优先查找附近的棋子（解决点偏问题）
+        const nearPiece = this._findNearestPiece(x, y);
+        const { row, col } = nearPiece
+            ? { row: nearPiece.row, col: nearPiece.col }
+            : pixelToBoard(x, y, this.cellSize, this.offsetX, this.offsetY);
 
         if (!isInBoard(row, col)) return null;
 
@@ -339,7 +366,7 @@ class ChessBoard {
             return null;
         }
 
-        // 未选中棋子，尝试选中
+        // 未选中棋子，尝试选中己方棋子
         if (clickedPiece && clickedPiece.side === this.currentSide) {
             this.selectPiece(row, col);
         }

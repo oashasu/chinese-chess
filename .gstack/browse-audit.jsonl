@@ -63,3 +63,18 @@
 {"ts":"2026-08-21T00:28:16.713Z","cmd":"screenshot","args":"/tmp/chess-click.png","origin":"http://localhost:8080/?v=2","durationMs":144,"status":"ok","hasCookies":false,"mode":"launched"}
 {"ts":"2026-08-21T00:29:09.785Z","cmd":"click","args":"@e2","origin":"http://localhost:8080/?v=2","durationMs":70,"status":"ok","hasCookies":false,"mode":"launched"}
 {"ts":"2026-08-21T00:29:20.208Z","cmd":"screenshot","args":"/tmp/chess-eve.png","origin":"http://localhost:8080/?v=2","durationMs":124,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T01:06:22.337Z","cmd":"goto","args":"http://localhost:8765","origin":"http://localhost:8765/","durationMs":147,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T01:06:38.154Z","cmd":"screenshot","args":"/tmp/chess-latest.png","origin":"http://localhost:8765/","durationMs":555,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T01:07:00.428Z","cmd":"console","args":"--errors","origin":"http://localhost:8765/","durationMs":2,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T01:07:14.972Z","cmd":"html","args":"--depth 3","origin":"http://localhost:8765/","durationMs":5005,"status":"error","hasCookies":false,"mode":"launched","error":"hTML: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('--depth')\u001b[22m\n"}
+{"ts":"2026-08-21T01:07:55.578Z","cmd":"url","args":"","origin":"http://localhost:8765/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T01:08:10.264Z","cmd":"viewport","args":"1400x900","origin":"http://localhost:8765/","durationMs":60,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T01:08:18.840Z","cmd":"screenshot","args":"/tmp/chess-latest2.png","origin":"http://localhost:8765/","durationMs":228,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T01:08:47.661Z","cmd":"js","args":"document.body.innerHTML","origin":"http://localhost:8765/","durationMs":10,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T01:09:02.024Z","cmd":"js","args":"document.getElementById('chess-board').toDataURL()","origin":"http://localhost:8765/","durationMs":27,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T01:09:36.437Z","cmd":"screenshot","args":"/tmp/chess-board-ok.png","origin":"http://localhost:8765/","durationMs":472,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T01:09:58.461Z","cmd":"js","args":"document.getElementById('chess-board').toDataURL('image/png') --out /tmp/chess-canvas.png","origin":"http://localhost:8765/","durationMs":15,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T01:10:39.759Z","cmd":"click","args":"input[value=\"eve\"]","origin":"http://localhost:8765/","durationMs":181,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T01:10:40.841Z","cmd":"click","args":"#auto-play","origin":"http://localhost:8765/","durationMs":37,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T01:10:49.066Z","cmd":"js","args":"document.getElementById('chess-board').toDataURL('image/png') --out /tmp/chess-gameplay.png","origin":"http://localhost:8765/","durationMs":5,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-08-21T01:11:10.357Z","cmd":"text","args":"#move-list","origin":"http://localhost:8765/","durationMs":7,"status":"ok","hasCookies":false,"mode":"launched"}
