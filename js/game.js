@@ -15,7 +15,8 @@ class ChessGame {
             greedy: new GreedyAI(),
             minimax: new MinimaxAI(4),
             mcts: new MCTSAI(1000),
-            hybrid: new HybridAI()
+            hybrid: new HybridAI(),
+            alphazero: new AlphaZeroAI('js/ai/model.onnx', 200)
         };
 
         // 游戏配置

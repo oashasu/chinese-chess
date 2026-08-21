@@ -4,5 +4,17 @@
     "win_rate": 0.15,
     "data_size": 3886,
     "model_updated": false
+  },
+  {
+    "iteration": 2,
+    "win_rate": 0.15,
+    "data_size": 3736,
+    "model_updated": false
+  },
+  {
+    "iteration": 3,
+    "win_rate": 0.05,
+    "data_size": 4000,
+    "model_updated": false
   }
 ]
