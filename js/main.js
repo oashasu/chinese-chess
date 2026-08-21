@@ -21,8 +21,10 @@ class ChessApp {
         this._bindEvents();
         this._updateUI();
 
-        // 初始渲染
-        this.game.board.render();
+        // 初始渲染 - 使用 requestAnimationFrame 确保 DOM 准备好
+        requestAnimationFrame(() => {
+            this.game.board.render();
+        });
     }
 
     /**
@@ -314,8 +316,7 @@ class ChessApp {
     }
 }
 
-// 启动应用
-document.addEventListener('DOMContentLoaded', () => {
-    const app = new ChessApp();
-    app.init();
-});
+// 启动应用 - 直接执行，因为 script 在 body 底部
+const app = new ChessApp();
+app.init();
+window.app = app;  // 挂载到 window 便于调试

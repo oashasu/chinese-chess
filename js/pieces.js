@@ -192,8 +192,11 @@ class MoveGenerator {
             // 不能过河
             if (!this._isInOwnSide(newRow, side)) continue;
 
-            // 检查象眼
-            if (board[row + br][col + bc]) continue;
+            // 检查象眼（先检查是否在棋盘范围内）
+            const blockRow = row + br;
+            const blockCol = col + bc;
+            if (!isInBoard(blockRow, blockCol)) continue;
+            if (board[blockRow][blockCol]) continue;
 
             if (!isInBoard(newRow, newCol)) continue;
 
@@ -224,8 +227,11 @@ class MoveGenerator {
 
             if (!isInBoard(newRow, newCol)) continue;
 
-            // 检查马脚
-            if (board[row + br][col + bc]) continue;
+            // 检查马脚（先检查是否在棋盘范围内）
+            const blockRow = row + br;
+            const blockCol = col + bc;
+            if (!isInBoard(blockRow, blockCol)) continue;
+            if (board[blockRow][blockCol]) continue;
 
             const target = board[newRow][newCol];
             if (!target || target.side !== side) {

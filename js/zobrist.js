@@ -120,8 +120,8 @@ class PositionHistory {
             timestamp: Date.now()
         });
 
-        // 记录是否吃子
-        const isCapture = move.captured !== null;
+        // 记录是否吃子（初始局面没有走法）
+        const isCapture = move ? move.captured !== null : false;
         this.captureHistory.push(isCapture);
 
         // 记录是否将军
