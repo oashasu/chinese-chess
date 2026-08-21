@@ -94,9 +94,9 @@ class ChessGame {
      * 执行走法
      */
     makeMove(move) {
-        // 检查是否合法
-        const validMoves = MoveGenerator.generateAllMoves(this.board.pieces, this.board.currentSide);
-        const isValid = validMoves.some(m =>
+        // 检查是否合法（使用真正合法的走法，过滤掉送将的走法）
+        const legalMoves = this._generateLegalMoves(this.board.pieces, this.board.currentSide);
+        const isValid = legalMoves.some(m =>
             m.fromRow === move.fromRow && m.fromCol === move.fromCol &&
             m.toRow === move.toRow && m.toCol === move.toCol
         );
@@ -207,14 +207,55 @@ class ChessGame {
     }
 
     /**
+     * 生成真正合法的走法（过滤掉走完后自己被将军的走法）
+     */
+    _generateLegalMoves(board, side) {
+        const pseudoMoves = MoveGenerator.generateAllMoves(board, side);
+        return pseudoMoves.filter(move => {
+            const newBoard = MoveGenerator.makeMove(board, move);
+            return !this._isInCheckOnBoard(newBoard, side);
+        });
+    }
+
+    /**
+     * 在指定棋盘上检查某方是否被将军
+     */
+    _isInCheckOnBoard(board, side) {
+        const kingPos = this._findKingOnBoard(board, side);
+        if (!kingPos) return false;
+
+        const opponentSide = side === 'red' ? 'black' : 'red';
+        const opponentMoves = MoveGenerator.generateAllMoves(board, opponentSide);
+
+        return opponentMoves.some(move =>
+            move.toRow === kingPos.row && move.toCol === kingPos.col
+        );
+    }
+
+    /**
+     * 在指定棋盘上查找将/帅位置
+     */
+    _findKingOnBoard(board, side) {
+        for (let row = 0; row <= 9; row++) {
+            for (let col = 0; col <= 8; col++) {
+                const piece = board[row][col];
+                if (piece && piece.type === PIECE_TYPES.KING && piece.side === side) {
+                    return { row, col };
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * 检查游戏结束
      */
     _checkGameEnd() {
         const currentSide = this.board.currentSide;
-        const moves = MoveGenerator.generateAllMoves(this.board.pieces, currentSide);
+        const legalMoves = this._generateLegalMoves(this.board.pieces, currentSide);
 
-        // 无合法走法
-        if (moves.length === 0) {
+        // 无合法走法（被将死或困毙）
+        if (legalMoves.length === 0) {
             const winner = currentSide === 'red' ? 'black' : 'red';
             return { winner, reason: 'checkmate' };
         }
