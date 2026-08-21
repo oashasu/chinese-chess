@@ -111,6 +111,10 @@ class MCTSAI {
         // 选择阶段（Selection）
         while (node.isFullyExpanded() && node.children.length > 0) {
             node = node.selectBest();
+            // 防止选择到终局节点（无子节点的叶子）导致无限循环
+            if (node.children.length === 0 && node.untriedMoves !== null && node.untriedMoves.length === 0) {
+                break;
+            }
             currentBoard = MoveGenerator.makeMove(currentBoard, node.move);
             currentSide = currentSide === 'red' ? 'black' : 'red';
         }

@@ -16,7 +16,7 @@ class MinimaxAI {
         const startTime = performance.now();
 
         let bestMove = null;
-        let bestScore = -Infinity;
+        let bestScore = side === 'red' ? -Infinity : Infinity;
 
         const moves = MoveGenerator.generateAllMoves(board, side);
         if (moves.length === 0) return null;
@@ -24,7 +24,7 @@ class MinimaxAI {
         // 迭代加深
         for (let currentDepth = 1; currentDepth <= this.depth; currentDepth++) {
             let currentBestMove = null;
-            let currentBestScore = -Infinity;
+            let currentBestScore = side === 'red' ? -Infinity : Infinity;
 
             // 打乱走法顺序增加随机性
             const shuffledMoves = shuffle(moves);
@@ -38,9 +38,17 @@ class MinimaxAI {
                 const newBoard = MoveGenerator.makeMove(board, move);
                 const score = this._minimax(newBoard, currentDepth - 1, -Infinity, Infinity, false, side);
 
-                if (score > currentBestScore) {
-                    currentBestScore = score;
-                    currentBestMove = move;
+                // 红方最大化，黑方最小化（评估始终以红方为正方向）
+                if (side === 'red') {
+                    if (score > currentBestScore) {
+                        currentBestScore = score;
+                        currentBestMove = move;
+                    }
+                } else {
+                    if (score < currentBestScore) {
+                        currentBestScore = score;
+                        currentBestMove = move;
+                    }
                 }
             }
 

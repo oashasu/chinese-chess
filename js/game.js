@@ -103,12 +103,12 @@ class ChessGame {
 
         if (!isValid) return false;
 
+        // 先更新哈希（在棋盘变动之前，此时棋子还在原位）
+        this.currentHash = this.zobrist.updateHash(this.currentHash, move, this.board.pieces);
+
         // 执行走法
         this.board.makeMove(move);
         this.moveHistory.push(move);
-
-        // 更新哈希
-        this.currentHash = this.zobrist.updateHash(this.currentHash, move, this.board.pieces);
 
         // 检查将军
         const opponentSide = this.board.currentSide;

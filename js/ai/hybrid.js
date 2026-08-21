@@ -50,15 +50,23 @@ class HybridAI {
 
         // 对候选走法进行深度搜索
         let bestMove = null;
-        let bestScore = -Infinity;
+        let bestScore = side === 'red' ? -Infinity : Infinity;
 
         for (const move of candidates) {
             const newBoard = MoveGenerator.makeMove(board, move);
             const score = this._minimaxWithMemo(newBoard, 4, -Infinity, Infinity, false, side);
 
-            if (score > bestScore) {
-                bestScore = score;
-                bestMove = move;
+            // 红方最大化，黑方最小化（评估始终以红方为正方向）
+            if (side === 'red') {
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMove = move;
+                }
+            } else {
+                if (score < bestScore) {
+                    bestScore = score;
+                    bestMove = move;
+                }
             }
 
             // 超时检查
