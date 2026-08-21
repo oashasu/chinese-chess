@@ -1,9 +1,0 @@
-{
-  "pid": 2651,
-  "port": 25831,
-  "token": "17a979bd-c658-4590-a4fc-d37d0b6a297b",
-  "startedAt": "2026-08-21T01:06:22.095Z",
-  "serverPath": "/Users/claw/.claude/skills/gstack/browse/src/server.ts",
-  "mode": "launched",
-  "configHash": "303a7eeccc03078b"
-}
