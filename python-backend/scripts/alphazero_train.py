@@ -18,7 +18,9 @@ import numpy as np
 from pathlib import Path
 from typing import Optional
 
+from env.rules import XiangqiRules, RED, BLACK
 from model.resnet import create_model, XiangqiNet, XiangqiNetSmall
+from model.alphazero_mcts import AlphaZeroMCTS
 from scripts.self_play import self_play_games
 from scripts.train import train_supervised, export_onnx
 

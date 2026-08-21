@@ -1,0 +1,14 @@
+[
+  {
+    "iteration": 1,
+    "win_rate": 0.25,
+    "data_size": 2000,
+    "model_updated": false
+  },
+  {
+    "iteration": 2,
+    "win_rate": 0.1,
+    "data_size": 2000,
+    "model_updated": false
+  }
+]
